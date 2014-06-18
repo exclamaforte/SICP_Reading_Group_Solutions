@@ -12,9 +12,13 @@
 ;   b
 ;   a) -> (if (true && true) b a) -> b
 ; (cond ((= a 4) 6)
-;       ((= b 4) (+ 6 7 a))
-;       ((else 25))) -> will eval later
-;;;;;;TODO
+;      ((= b 4) (+ 6 7 a))
+;      (else 25)) -> 17 
+; (+ 2 (if (> b a) b a)) -> (+ 2 4) -> 6
+; (* (cond ((> a b) a)
+;         ((< a b) b)
+;         (else -1))
+;   (+ a 1)) -> (* 4 4) -> 16
 
 ; Exercise 1.2
 (/ (+ 5 4 (- 2 (- 3 (+ 6 (/ 4 5))))) (* 3 (- 6 2) (- 2 7)))
@@ -92,6 +96,6 @@
 (define (cube_root_approx guess x)
     (if (in_tolerance guess x)
         guess
-        (cube_root_improve guess x)
+        (cube_root_approx (cube_root_improve guess) x)
     )
 )
