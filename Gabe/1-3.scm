@@ -120,6 +120,8 @@
   (define (close-enough? v1 v2)
     (< (abs (- v1 v2)) tolerance))
   (define (try guess)
+    (display guess)
+    (newline)
     (let ((next (f guess)))
       (if (close-enough? guess next)
           next
@@ -135,6 +137,15 @@
 
 (define phi 
   (fixed-point (lambda (y) (average y (+ 1 (/ 1 y))))
-               0))
+               0.001))
 
+;1-36
+(fixed-point (lambda (y) (/ (log 1000) (log y)))
+             2)
 
+(define (cont-frac n d k)
+  (define (iter k) 
+    (if (= k n)
+      (/ (n k) (d k))
+      (/ (n k) (+ (d k) (iter (+ k 1))))))
+  (iter 1))
