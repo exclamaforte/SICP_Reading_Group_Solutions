@@ -138,14 +138,84 @@
 (define phi 
   (fixed-point (lambda (y) (average y (+ 1 (/ 1 y))))
                0.001))
-
-;1-36
+;1-36 done
+;1-37 not working
 (fixed-point (lambda (y) (/ (log 1000) (log y)))
              2)
 
 (define (cont-frac n d k)
-  (define (iter k) 
-    (if (= k n)
-      (/ (n k) (d k))
-      (/ (n k) (+ (d k) (iter (+ k 1))))))
+  (define (iter v) 
+    (if (= v n)
+      (/ (n v) (d v))
+      (/ (n v) (+ (d v) (iter (+ v 1))))))
   (iter 1))
+
+
+;1-38, 1-39 need 1-37
+
+(define (average-damp f)
+  (lambda (x) (average x (f x))))
+(define (sqrt x)
+  (fixed-point (average-damp (lambda (y) (/ x y)))
+               1.0))
+(define (cube-root x)
+  (fixed-point (average-damp (lambda (y) (/ x (square y))))
+               1.0))
+
+(define (deriv g)
+  (lambda (x)
+    (/ (- (g (+ x dx)) (g x))
+       dx)))
+
+(define dx 0.00001)
+
+(define (newton-transform g)
+  (lambda (x)
+    (- x (/ (g x) (((deriv g) x))))))
+(define (newtons-method g guess)
+  (fixed-point (newton-transform g) guess))
+
+(define (fixed-point-of-transform g transform guess)
+  (fixed-point (transform g) guess))
+
+(define (sqrt x)
+  (fixed-point-of-transform (lambda (y) (/ x y))
+                            average-damp
+                            1.0))
+
+;1-40
+(define (cubic a b c)
+  (lambda (x) (+ (* x x x) (* a x x) (* b x) c)))
+
+;1-41
+(define (double f)
+  (lambda (x) (f (f x))))
+;(((double (double double)) inc) 5) = 21
+
+;1-42
+(define (compose f g)
+  (lambda (x) (f (g x))))
+
+;1-43
+(define (repeated f n)
+  (if (= n 0)
+      identity
+      (compose f (repeated f (- n 1)))))
+
+;1-44
+(define (avg a b c)
+  (/ (+ a b c) 3))
+(define (smooth f)
+  (lambda (x) (avg (f x)
+                   (f (+ x dx))
+                   (f (- x dx)))))
+
+(define (n-fold-smooth f n)
+  (repeated smooth n))
+
+;1-46 can rewrite, get 1-45 from laptop
+(define (iterative-improve f guess good-enough? improve)
+  (if (good-enough? guess)
+      guess
+      (iterative-improve f (improve guess) good-enough? improve)))
+
