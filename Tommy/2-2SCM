@@ -28,3 +28,8 @@
 (define (l n) (A l n)); 2_1^2_2^...^2_l^n
 ;I think this is the general pattern, at least.
 ;-------------------------------------------------------
+
+;1.11
+(define (f2 n)
+    (if (< n 3) n
+    (+ (f2 (- n 1)) (* 2 (f2 (- n 2))) (* 3 (f2 (- n 3)))))); Rec
