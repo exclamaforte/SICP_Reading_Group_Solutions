@@ -31,5 +31,15 @@
 
 ;1.11
 (define (f2 n)
-    (if (< n 3) n
-    (+ (f2 (- n 1)) (* 2 (f2 (- n 2))) (* 3 (f2 (- n 3)))))); Rec
+    (if (< n 3)
+        n
+        (+ (f2 (- n 1)) (* 2 (f2 (- n 2))) (* 3 (f2 (- n 3)))))); Rce
+    
+(define (f3 n)
+    (define (f3-it n1 n2 n3 c)
+        (if (>= c n)
+            n1
+            (f3-it (+ n1 (* 2 n2) (* 3 n3)) n1 n2 (+ c 1))))
+    (if (< n 3)
+        n
+        (f3-it 2 1 0 2))); It
