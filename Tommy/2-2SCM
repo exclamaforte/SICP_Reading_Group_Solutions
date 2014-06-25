@@ -81,6 +81,22 @@
           
 ;-------------------------------------------------------
 
-;1.18
+;1.19
+; Using much algebra q' = 2pq+q^2; p' = q^2+p^2.
 
+(define (fib n)
+    (fib-it 1 0 0 1 n))
+
+(define (fib-it a b p q c)
+    (cond ((= c 0) b)
+          ((even? c) (fib-it a
+                             b
+                             (+ (* p p) (* q q))
+                             (+ (* 2 p q) (* q q))
+                             (/ c 2)))
+          ((odd? c) (fib-it (+ (* b q) (* a q) (* a p))
+                        (+ (* b p) (* a q))
+                        p
+                        q
+                        (- c 1)))))
 
