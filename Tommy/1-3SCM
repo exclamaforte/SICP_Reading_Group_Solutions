@@ -1,0 +1,12 @@
+;1.29
+
+(define (simpson f a b n)
+    (define h (/ (- b a) n))
+    (define (add-term s k)
+        (cond ((> k n) s)
+              ((or (= k 0) (= k n)) (add-term (+ s (* 1 (f (+ a (* k h))))) (+ k 1)))
+              ((odd? k) (add-term (+ s (* 4 (f (+ a (* k h))))) (+ k 1)))
+              ((even? k) (add-term (+ s (* 2 (f (+ a (* k h))))) (+ k 1)))))
+    (* (/ h 3) (add-term 0 0)))
+
+(define (cube x) (* x x x))
