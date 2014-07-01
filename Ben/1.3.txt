@@ -1,0 +1,141 @@
+;1.29
+
+(define (simp f a b n)
+	(let (h (/ (+ a b) n))
+	(simp-iter f a b h))
+
+(define (simp-iter f a b h res)
+	(if (= a b) res
+	    (simp-iter f (+ a h h) b (+ res (f a) (* 2 (f (+ a h))) (f (+ a h h)))))
+
+;1.30
+
+(define (sum term a next b)
+  (define (iter a result)
+     (if 
+
+
+
+;1.31
+
+(define (product f a next b)
+  (if (> a b)
+      0
+      (* (f a)
+	 (product f (next a) next b)))
+
+(product (lambda (x) (x)) 1 (lambda (x) (+ x 1)) b)
+
+(product (lambda (x) (if (= (remainder x 2) 0) (/ x (+ x 1)) (/ (+ x 1) x))) 2 (lambda (x) (+ x 1)) b)
+
+
+b.
+(define (pro-iter f a next b total)
+	( if (= a b) (* (f a) total)
+	     (pro-iter f (next a) next b (* total (f a)))))
+(define (product f a next b)
+	(pro-iter f a next b 1))
+
+
+;1.32
+
+(define (accum-iter g f a next b res) 
+	(if (= a b) (g (f a) res)
+	    (accum-iter g f (next a) b (g res (f a))))
+(define (accumulator g nv f a next b)
+	(accum-iter g f a next b nv))
+
+
+(accumulator (lambda (x y) (+ x y)) 0 f a next b)
+(accumulator (lambda (x y) (* x y)) 1 f a next b)
+
+
+
+;1.33
+
+(define (f-a-iter g f a next b pred res)
+	(if (= a b) (if (pred a) (g (f a) res) res)
+	    (if (pred a) (f-a-iter g f (next a) b pred (g (f a) res)
+		(f-a-iter g f (next a) b pred res))))
+(define (filtered-accumulate g f a next b pred nv)
+	(accum-iter g f a next b pred nv))
+
+
+;1.34
+
+;;You get an error because you get (f f) -> (f 2) -> (2 2), and
+;;since 2 is not a procedure, it cannot be applied to the argument.
+
+;1.35
+
+;; phi = 1 + 1 / phi, so phi is a fixed point of x -> 1 + 1 / x
+
+;1.36
+
+(define tolerance 0.00001)
+(define (fixed-point f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance))
+  (define (try guess)
+    (newline)
+    (display guess)
+    (let ((next (f guess)))
+      (if (close-enough? guess next)
+          next
+          (try next))))
+  (try first-guess))
+
+
+;1.37 
+
+(define (cf-iter n d k r)
+   (if (= k 0) r
+	(cf-iter n d (- k 1) (/ (n k) (+ d r)))))
+(define (cont-frac n d k)
+	(cf-iter n d k 0))
+
+;1.38
+
+(define (ea k)
+	(cont-frac (lambda (x) (1)) (lambda (x) (if (= (remainder x 3) 2) (/ (* (+ x 1) 2) 3) 1) k))
+
+;1.39
+
+(define (tan-cf x k) 
+	(/ (cont-frac (lambda (t) (* t t)) (lambda (t) (- (* t 2) 1)) x))
+
+;1.40
+(define (cubic a b c)
+	(lambda (x) (+ (* x x x) (* a (square x)) (* b x) c)))
+
+;1.41
+(define (double a)
+	(lambda (x) (a (a x))))
+
+;;13
+
+;1.42
+
+(define (compose f g)
+	(lambda (x) (f (g x))))
+
+;1.43
+
+(define (repeated f n)
+	(lambda (x) (f (repeated f (- n 1))))
+
+;1.44
+
+(define (smooth f dx)
+	(lambda (x) (/ (+ (f x) (f (- x dx)) (f (+ x dx))) 3))))
+
+(repeated (smooth f dx) n)
+
+;1.45
+
+;;can't do this right now
+
+;1.46
+
+(define (iter-impr good? impr x)
+	(if (good? x) x (iter-impr good? impr (impr x))))
