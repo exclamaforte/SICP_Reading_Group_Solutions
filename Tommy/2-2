@@ -60,6 +60,21 @@
 (cons x y) ;= ((1 2 3) 4 5 6)
 (list x y) ;= ((1 2 3) (4 5 6))
 
+;2.27
+
+(define (reverse list1)
+    (if (= (length list1) 1) list1
+        (append (reverse (cdr list1)) (list (car list1)))))
+        
+(define (deep-reverse list1)
+    (cond ((null? list1) (list))
+          ((pair? (car list1)) (append (deep-reverse (cdr list1))
+                                       (list (deep-reverse (car list1)))))
+          (else (append (deep-reverse (cdr list1))
+                        (list (car list1))))))
+                   
+(define x (list (list 1 2) (list 3 4)))
+(deep-reverse x) ;= ((4 3) (2 1))
 
 
 
