@@ -4,3 +4,20 @@
           ((= (length list1) 1) list1)
           (else (last-pair (cdr list1)))))
 
+;2.18
+
+(define (reverse list1)
+    (if (= (length list1) 1) list1
+        (append (reverse (cdr list1)) (list (car list1)))))
+        
+;2.20
+(define (filter predicate sequence)
+    (cond ((null? sequence) (list))
+        ((predicate (car sequence))
+        (cons (car sequence)
+        (filter predicate (cdr sequence))))
+        (else (filter predicate (cdr sequence)))))
+  
+(define (same-parity f . ls)
+    (filter (lambda (x) (or (and (even? f) (even? x))
+                            (and (odd? f) (odd? x)))) ls))
