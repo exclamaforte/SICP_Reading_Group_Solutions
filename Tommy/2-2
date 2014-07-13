@@ -21,3 +21,22 @@
 (define (same-parity f . ls)
     (filter (lambda (x) (or (and (even? f) (even? x))
                             (and (odd? f) (odd? x)))) ls))
+
+;2.21
+
+(define (square-list1 items)
+    (if (null? items)
+        (list)
+        (cons (* (car items) (car items))
+              (square-list1 (cdr items)))))
+        
+(define (square-list2 items)
+    (map (lambda (x) (* x x)) items))
+    
+;2.23
+
+(define (for-eacH f items)
+    (if (null? items)
+        #t
+        (f (car items))
+        (for-eacH f (cdr items))))
