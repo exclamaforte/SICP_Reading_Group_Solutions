@@ -139,6 +139,29 @@
 
 ;d: I'd only have to change the retrievers
 
+;2.30
 
+(define (sqr-tree1 tree)
+    (cond ((null? tree) (list))
+          ((not (pair? tree)) (* tree tree))
+          (else (cons (sqr-tree1 (car tree))
+                      (sqr-tree1 (cdr tree))))))
+(define (sqr-tree2 tree)
+    (map (lambda (sub-tree)
+                 (if (pair? sub-tree)
+                 (sqr-tree2 sub-tree)
+                 (* sub-tree sub-tree)))
+         tree))
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
 
 
