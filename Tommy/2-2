@@ -173,7 +173,46 @@
              (append rest (map (lambda (ls) (cons (car s) ls))
                                rest)))))  
          
-         
+;2.33
+
+(define (accumulate op initial sequence)
+    (if (null? sequence)
+        initial
+        (op (car sequence)
+            (accumulate op initial (cdr sequence)))))
+
+(define (enumerate-interval low high)
+    (if (> low high)
+    (list)
+    (cons low (enumerate-interval (+ low 1) high))))
+
+(define (fringe ls)
+    (cond ((null? ls) (list))
+          ((pair? (car ls))
+           (fringe (append (car ls) (cdr ls))))
+          (else (cons (car ls) (fringe (cdr ls))))))
+          
+(define (enumerate-tree tree)
+    (fringe tree))
+    
+(define (maP p sequence)
+    (accumulate (lambda (x y)
+                        (cons (p x) y)) (list) sequence))
+
+(define (appenD seq1 seq2)
+    (accumulate cons seq2 seq1))
+
+(define (lengtH sequence)
+    (accumulate (lambda (y x) (+ x 1)) 0 sequence))
+    
+;2.34
+
+(define (horner-eval x coefficient-sequence)
+    (accumulate (lambda (this-coeff higher-terms)
+                        (+ this-coeff (* x higher-terms)))
+                0
+                coefficient-sequence))
+
          
 
 
