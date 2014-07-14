@@ -137,8 +137,7 @@
 (define b4 (make-branch .5 m1))
 (define m2 (make-mobile b4 b2))
 
-
-
+;d: I'd only have to change the retrievers
 
 
 
