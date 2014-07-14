@@ -90,7 +90,7 @@
 (fringe x) ;= (1 2 3 4)
 (fringe y) ;= (1 2 3 4 5 6 7 8)
 
-; 2.29ab
+; 2.29
  
 (define (make-mobile left right)
     (list left right))
@@ -115,8 +115,22 @@
         (branch-structure branch)
         (total-weight-m (branch-structure branch))))
 
+(define (branch-torque branch)
+    (* (branch-len branch)
+       (total-weight-b branch)))
+
+(define (balanced?-b branch)
+    (if (pair? (branch-structure branch))
+        (balanced? (branch-structure branch))
+        #t))
+(define (balanced? mobile)
+    (and (= (branch-torque (left-branch mobile))
+            (branch-torque (right-branch mobile)))
+         (balanced?-b (left-branch mobile))
+         (balanced?-b (right-branch mobile))))
+
 (define b1 (make-branch 1 4))
-(define b2 (make-branch 1 2))
+(define b2 (make-branch 1 3))
 (define b3 (make-branch 2 2))
 
 (define m1 (make-mobile b1 b3))
