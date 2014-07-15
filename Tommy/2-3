@@ -102,7 +102,7 @@
           ((null? set2) set1)
           (else (union-set (adjoin-set (car set2) set1) (cdr set2)))))
           
-
+;2.60 This would improve the preformance for adjoin-set and union-set
 
 
 
