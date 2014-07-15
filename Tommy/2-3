@@ -7,3 +7,11 @@
 ;(pair? (car '(a short list))) = #f
 ;(memq 'red '((red shoes) (blue socks))) = #f
 ;(memq 'red '(red shoes blue socks)) = (red shoes blue socks)
+
+;2.54
+
+(define (equaL? ls1 ls2)
+    (if (null? ls1) (null? ls2)
+        (and (eq? (car ls1) (car ls2))
+             (equaL? (cdr ls1) (cdr ls2)))))
+
